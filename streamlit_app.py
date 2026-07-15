@@ -165,8 +165,11 @@ def check_non_policy(question):
 # ====================================================================
 
 def call_llm(system_prompt, user_message):
-    """调用硅基流动 API"""
-    client = OpenAI(api_key=API_KEY, base_url=API_BASE_URL)
+    """调用 DeepSeek API"""
+    api_key = os.environ.get("DEEPSEEK_API_KEY", "")
+    if not api_key:
+        return "⚠️ API Key 未配置，请在 Streamlit Cloud 设置 DEEPSEEK_API_KEY"
+    client = OpenAI(api_key=api_key, base_url=API_BASE_URL)
     try:
         response = client.chat.completions.create(
             model=MODEL_NAME,
