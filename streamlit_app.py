@@ -323,11 +323,15 @@ div[data-testid="stTabs"] > div[data-testid="stHorizontalBlock"] {
     width: 100% !important;
     flex-wrap: nowrap !important;
 }
-/* 每个标签等宽 */
+/* 每个标签等宽，内容居中对齐 */
 div[data-testid="stTabs"] div[data-testid="stTab"] {
     flex: 1 1 0% !important;
     min-width: 0 !important;
     text-align: center !important;
+}
+div[data-testid="stTabs"] div[data-testid="stTab"] button {
+    width: 100% !important;
+    justify-content: center !important;
 }
 /* 视觉重新排序：政策问答(第2个)→左，村简介(第1个)→中，地图导览(第3个)→右 */
 div[data-testid="stTabs"] div[data-testid="stTab"]:nth-child(1) { order: 2 !important; }
