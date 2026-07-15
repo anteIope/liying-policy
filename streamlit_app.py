@@ -333,6 +333,12 @@ div[data-testid="stTabs"] div[data-testid="stTab"] button {
     width: 100% !important;
     justify-content: center !important;
 }
+div[data-testid="stTabs"] div[data-testid="stTab"] button p,
+div[data-testid="stTabs"] div[data-testid="stTab"] button div,
+div[data-testid="stTabs"] div[data-testid="stTab"] button span {
+    text-align: center !important;
+    width: 100% !important;
+}
 /* 视觉重新排序：政策问答(第2个)→左，村简介(第1个)→中，地图导览(第3个)→右 */
 div[data-testid="stTabs"] div[data-testid="stTab"]:nth-child(1) { order: 2 !important; }
 div[data-testid="stTabs"] div[data-testid="stTab"]:nth-child(2) { order: 1 !important; }
