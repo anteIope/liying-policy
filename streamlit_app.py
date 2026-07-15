@@ -592,16 +592,15 @@ with tab_map:
                       <div style="font-size:15px;color:#666;line-height:1.6;margin-bottom:12px;
                            min-height:2.4em;">
                         {loc['desc']}</div>
-                      <a href="javascript:void(0)" onclick="window.location.href='{nav_url}';return false;"
-                         style="text-decoration:none;">
-                        <button style="width:100%;padding:12px 24px;background:#1a73e8;color:white;
-                             border:none;border-radius:25px;font-size:17px;font-weight:600;
-                             cursor:pointer;transition:background 0.2s;
-                             -webkit-tap-highlight-color:transparent;"
+                      <a href="{nav_url}" target="_self" rel="noopener noreferrer"
+                         style="display:block;text-align:center;padding:12px 24px;
+                                background:#1a73e8;color:white;border-radius:25px;
+                                font-size:17px;font-weight:600;text-decoration:none;
+                                transition:background 0.2s;
+                                -webkit-tap-highlight-color:transparent;"
                          onmouseover="this.style.background='#1557b0'"
                          onmouseout="this.style.background='#1a73e8'">
-                          📍 导航到这里
-                        </button>
+                        📍 导航到这里
                       </a>
                     </div>
                     """, unsafe_allow_html=True)
