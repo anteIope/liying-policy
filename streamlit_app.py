@@ -425,7 +425,7 @@ with tab_map:
     <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
     <style>
       *{{margin:0;padding:0;box-sizing:border-box;}}
-      body{{background:transparent;font-family:sans-serif;}}
+      html,body{{width:100%;height:100%;background:transparent;font-family:sans-serif;}}
       #map_container{{width:100%;height:100%;border-radius:14px;overflow:hidden;}}
     </style>
     </head><body>
@@ -487,11 +487,10 @@ with tab_map:
             }});
             map.add(marker);
         }});
-    }})();
-
         // 移动端适配
-        setTimeout(function(){{ if(map) map.resize(); }}, 800);
-        window.addEventListener("resize", function(){{ if(map) map.resize(); }});
+        setTimeout(function(){{ map.resize(); }}, 800);
+        window.addEventListener("resize", function(){{ map.resize(); }});
+    }})();
     </script>
     </body></html>
     """
