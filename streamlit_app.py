@@ -307,14 +307,94 @@ st.markdown(f"""
 
 
 # ====================================================================
-#  UI: 双标签页
+#  UI: 三标签页（简介 / 政策问答 / 地图导览）
 # ====================================================================
 
-tab_qa, tab_map = st.tabs(["💬 政策问答", "🗺️ 村地图导览"])
+tab_intro, tab_qa, tab_map = st.tabs(["🏘️ 李营村简介", "💬 政策问答", "🗺️ 村地图导览"])
 
 
 # ########################
-#  标签页1: 政策问答
+#  标签页1: 李营村简介
+# ########################
+
+with tab_intro:
+
+    # ----- 顶部标题卡片 -----
+    st.markdown(f"""
+    <div style="background:linear-gradient(135deg,#1a73e8,#1557b0);color:white;
+         border-radius:14px;padding:24px 20px;margin-bottom:16px;text-align:center;">
+      <h1 style="margin:0;font-size:30px;letter-spacing:3px;">🏘️ {VILLAGE_NAME}</h1>
+      <p style="margin:8px 0 0;font-size:16px;opacity:0.9;">
+        河南省南阳市镇平县石佛寺镇 · 玉雕之乡 · 五星创建示范村</p>
+    </div>
+    """, unsafe_allow_html=True)
+
+    # ----- 村情概览（关键数据卡片） -----
+    st.markdown("##### 📊 村情概览")
+    kpi_cols = st.columns(5)
+    kpi_data = [
+        ("👥", "总人口", "6,124人"),
+        ("🏠", "村民小组", "11个"),
+        ("⭐", "党员", "60人"),
+        ("👔", "两委干部", "7人"),
+        ("🌾", "自然村", "1个"),
+    ]
+    for i, (icon, label, value) in enumerate(kpi_data):
+        with kpi_cols[i]:
+            st.markdown(f"""
+            <div style="text-align:center;padding:14px 6px;background:white;
+                 border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,0.06);">
+              <div style="font-size:28px;line-height:1.2;">{icon}</div>
+              <div style="font-size:13px;color:#888;margin:4px 0 2px;">{label}</div>
+              <div style="font-size:18px;font-weight:700;color:#222;">{value}</div>
+            </div>
+            """, unsafe_allow_html=True)
+
+    # ----- 位置 + 简介 -----
+    st.markdown("##### 📍 位置与概况")
+    col_loc, col_desc = st.columns([1, 2])
+    with col_loc:
+        st.info("**位置**\n\n镇平县石佛寺镇\n南1公里处·紧邻主镇区")
+    with col_desc:
+        st.markdown(f"""
+        {VILLAGE_NAME}地处石佛寺镇南1公里处，紧邻主镇区。近年来，村"两委"在县委、镇党委的领导支持下，
+        积极探索乡村治理新模式，以"五星"支部创建为牵引，在基层治理、项目建设、民生改善等方面走出了一条
+        适合本村良性发展的新路子，**实现了从乱到治的"华丽转身"**，正向着村强民富环境好的**样板村**迈进。
+        """)
+
+    st.markdown("---")
+
+    # ----- 五大亮点 -----
+    st.markdown("##### ✨ 五大亮点")
+    highlights = [
+        ("⭐ 党建引领", "锻造过硬干部队伍。新一届"两委"班子凝聚力、执行力、战斗力强，培育3名年轻大学生作为后备力量，在玉石智谷等数十个重点项目征地380亩、迁坟58座，打造了一支肯吃苦、能干事的过硬队伍。"),
+        ("🏛️ 乡里中心", "高标准打造占地6000㎡的党群服务中心，集乡村治理、便民服务、文化娱乐、就业创业于一体，建有电商服务中心、直播间、技能培训学校、矛盾调解室等区域，开创性地设立村级蓝天救援队驻地。"),
+        ("💼 产业富民", "成立劳务输出合作社和专业机械合作社，为村民提供就业岗位90多个，组织技能培训400多人次。村办玉雕厂已投入量产，40个设施大棚每年为村集体增收18万元，带动6户脱贫户月收入稳定在3000元左右。"),
+        ("🌳 环境整治", "近年维修生产道路4000米，硬化道路200余米，清淤1300米，铺设排污管网3000余米，安装太阳能路灯136盏，种植绿植3800㎡。配备保洁员8名，实现垃圾上门收取，村容村貌焕然一新。"),
+        ("🤝 基层治理", "划分4个四级网格、21个五级网格，选拔21名网格员实现全村覆盖。累计走访群众300余户，化解矛盾纠纷60余起。村规民约制度健全，近年来矛盾纠纷逐年减少，和谐氛围愈加浓厚。"),
+    ]
+    for icon_title, desc in highlights:
+        st.markdown(f"""
+        <div style="background:white;border-radius:12px;padding:16px 18px;margin-bottom:10px;
+             box-shadow:0 1px 6px rgba(0,0,0,0.06);border-left:4px solid #1a73e8;">
+          <div style="font-size:17px;font-weight:700;color:#1a73e8;margin-bottom:4px;">{icon_title}</div>
+          <div style="font-size:14px;color:#555;line-height:1.7;">{desc}</div>
+        </div>
+        """, unsafe_allow_html=True)
+
+    # ----- 愿景 -----
+    st.markdown(f"""
+    <div style="background:#f0f7ff;border-radius:12px;padding:18px 20px;margin-top:8px;
+         text-align:center;border:1px solid #d0e3ff;">
+      <span style="font-size:16px;color:#1a73e8;font-weight:600;">
+        🌾 乡村要振兴，治理是关键 —— {VILLAGE_NAME}正奋力打造全县村强民富环境好的样板村
+      </span>
+    </div>
+    """, unsafe_allow_html=True)
+
+
+# ########################
+#  标签页2: 政策问答
 # ########################
 
 with tab_qa:
@@ -401,7 +481,7 @@ with tab_qa:
 
 
 # ########################
-#  标签页2: 村地图导览
+#  标签页3: 村地图导览
 # ########################
 
 with tab_map:
@@ -616,7 +696,7 @@ with tab_map:
 
 
 # ====================================================================
-#  UI: 底部备案信息（显示在两个标签页下方）
+#  UI: 底部备案信息（显示在三个标签页下方）
 # ====================================================================
 
 st.markdown("---")
