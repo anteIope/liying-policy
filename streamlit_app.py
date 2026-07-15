@@ -499,7 +499,7 @@ with tab_map:
                             content: '<div style="padding:10px;font-size:14px;line-height:1.6;max-width:220px;">'+
                                 '<div style="font-size:18px;font-weight:700;color:#222;margin-bottom:4px;">'+loc.name+'</div>'+
                                 '<div style="color:#666;font-size:13px;margin-bottom:10px;">'+loc.desc+'</div>'+
-                                '<a href="'+navUrl+'" target="_top" rel="noopener" style="display:inline-block;padding:8px 20px;background:#1a73e8;color:#fff;border-radius:20px;text-decoration:none;font-size:14px;font-weight:600;">📍 导航到这里</a>'+
+                                '<a onclick="window.top.location.href=\''+navUrl+'\';return false;" style="display:inline-block;padding:8px 20px;background:#1a73e8;color:#fff;border-radius:20px;text-decoration:none;font-size:14px;font-weight:600;cursor:pointer;">📍 导航到这里</a>'+
                                 '</div>',
                             offset: new AMap.Pixel(0, -28),
                         }});
@@ -581,7 +581,7 @@ with tab_map:
                       <div style="font-size:15px;color:#666;line-height:1.6;margin-bottom:12px;
                            min-height:2.4em;">
                         {loc['desc']}</div>
-                      <a href="{nav_url}" target="_top" rel="noopener"
+                      <a href="{nav_url}" target="_blank" rel="noopener"
                          style="text-decoration:none;">
                         <button style="width:100%;padding:12px 24px;background:#1a73e8;color:white;
                              border:none;border-radius:25px;font-size:17px;font-weight:600;
