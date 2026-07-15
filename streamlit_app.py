@@ -310,7 +310,31 @@ st.markdown(f"""
 #  UI: 三标签页（简介 / 政策问答 / 地图导览）
 # ====================================================================
 
-tab_qa, tab_intro, tab_map = st.tabs(["💬 政策问答", "🏘️ 李营村简介", "🗺️ 村地图导览"])
+tab_intro, tab_qa, tab_map = st.tabs(["🏘️ 李营村简介", "💬 政策问答", "🗺️ 村地图导览"])
+
+# ----- 标签栏样式：填满宽度 + 水平分散对齐 -----
+st.markdown("""
+<style>
+/* 标签容器填满宽度 */
+div[data-testid="stTabs"] > div[data-testid="stHorizontalBlock"] {
+    display: flex !important;
+    justify-content: space-between !important;
+    gap: 0 !important;
+    width: 100% !important;
+    flex-wrap: nowrap !important;
+}
+/* 每个标签等宽 */
+div[data-testid="stTabs"] div[data-testid="stTab"] {
+    flex: 1 1 0% !important;
+    min-width: 0 !important;
+    text-align: center !important;
+}
+/* 视觉重新排序：政策问答(第2个)→左，村简介(第1个)→中，地图导览(第3个)→右 */
+div[data-testid="stTabs"] div[data-testid="stTab"]:nth-child(1) { order: 2 !important; }
+div[data-testid="stTabs"] div[data-testid="stTab"]:nth-child(2) { order: 1 !important; }
+div[data-testid="stTabs"] div[data-testid="stTab"]:nth-child(3) { order: 3 !important; }
+</style>
+""", unsafe_allow_html=True)
 
 
 # ########################
