@@ -440,9 +440,12 @@ with tab_map:
             viewMode: '3D',
             pitch: 55,
             rotation: -15,
-            mapStyle: 'amap://styles/fresh',
             showIndoorMap: false,
         }});
+        // 切换为卫星底图 + 路网标注
+        var satellite = new AMap.TileLayer.Satellite();
+        var roadNet = new AMap.TileLayer.RoadNet();
+        map.add([satellite, roadNet]);
         AMap.plugin(['AMap.ToolBar', 'AMap.Scale'], function() {{
             map.addControl(new AMap.ToolBar({{position:'RT'}}));
             map.addControl(new AMap.Scale());
