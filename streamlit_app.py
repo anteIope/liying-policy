@@ -490,6 +490,42 @@ with tab_map:
         // 移动端适配
         setTimeout(function(){{ map.resize(); }}, 800);
         window.addEventListener("resize", function(){{ map.resize(); }});
+        // 搜索功能
+        var searchInput = document.getElementById('search_input');
+        var searchBtn = document.getElementById('search_btn');
+        function doSearch() {{
+            var keyword = searchInput.value.trim();
+            if (!keyword) return;
+            // 先在本地地点中搜索
+            var matched = null;
+            for (var i = 0; i < locs.length; i++) {{
+                if (locs[i].name.indexOf(keyword) > -1 || locs[i].desc.indexOf(keyword) > -1) {{
+                    matched = locs[i];
+                    break;
+                }}
+            }}
+            if (matched) {{
+                map.setCenter([matched.lng, matched.lat]);
+                map.setZoom(18);
+                return;
+            }}
+            // 本地没找到，使用高德地理编码
+            AMap.plugin('AMap.Geocoder', function() {{
+                var geocoder = new AMap.Geocoder({{city:'镇平县',radius:1000}});
+                geocoder.getLocation(keyword, function(status, result) {{
+                    if (status === 'complete' && result.geocodes.length) {{
+                        var lnglat = result.geocodes[0].getLocation();
+                        map.setCenter(lnglat);
+                        map.setZoom(17);
+                        new AMap.Marker({{position:lnglat,title:keyword}});
+                    }} else {{
+                        alert('未找到 "'+keyword+'" 相关位置');
+                    }}
+                }});
+            }});
+        }}
+        searchBtn.addEventListener('click', doSearch);
+        searchInput.addEventListener('keydown', function(e) {{ if(e.keyCode===13) doSearch(); }});
     }})();
     </script>
     </body></html>
