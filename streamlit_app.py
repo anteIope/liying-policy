@@ -415,6 +415,68 @@ with tab_map:
     </div>
     """, unsafe_allow_html=True)
 
+    # ----- 3D 高德地图（嵌入式） -----
+    if "map_loaded" not in st.session_state:
+        st.session_state.map_loaded = True
+
+    map_html = f"""
+    <div style="margin-bottom:15px;">
+      <div id="map_container" style="width:100%;height:480px;border-radius:14px;overflow:hidden;
+           box-shadow:0 2px 12px rgba(0,0,0,0.10);"></div>
+    </div>
+    <script src="https://webapi.amap.com/maps?v=2.0&key=7737390acdd3346faa50a63dfb1b7a41"></script>
+    <script>
+    (function() {{
+        var locs = [
+            {{"name":"李营村委会","desc":"村委办公地点，办理盖章、证明、申请等各类村级事务","lat":33.0520,"lng":112.0830,"icon":"🏛️"}},
+            {{"name":"村卫生所","desc":"医保定点门诊，常见病诊疗、慢病取药","lat":33.0515,"lng":112.0825,"icon":"🏥"}},
+            {{"name":"老年活动中心","desc":"老年人休闲娱乐、养老政策咨询","lat":33.0523,"lng":112.0832,"icon":"☕"}},
+            {{"name":"文化广场","desc":"村内活动集会场地，政策宣传公示栏所在地","lat":33.0518,"lng":112.0828,"icon":"🏟️"}},
+            {{"name":"便民超市","desc":"日常生活用品购买，社保代缴点","lat":33.0512,"lng":112.0835,"icon":"🏪"}},
+        ];
+        var map = new AMap.Map('map_container', {{
+            zoom: 16,
+            center: [112.0830, 33.0518],
+            viewMode: '3D',
+            pitch: 55,
+            rotation: -15,
+            mapStyle: 'amap://styles/fresh',
+            showIndoorMap: false,
+        }});
+        AMap.plugin(['AMap.ToolBar', 'AMap.Scale'], function() {{
+            map.addControl(new AMap.ToolBar({{position:'RT'}}));
+            map.addControl(new AMap.Scale());
+        }});
+        locs.forEach(function(loc) {{
+            var marker = new AMap.Marker({{
+                position: [loc.lng, loc.lat],
+                title: loc.name,
+                label: {{
+                    content: '<div style="background:#1a73e8;color:#fff;padding:3px 10px;border-radius:12px;font-size:12px;font-weight:600;white-space:nowrap;box-shadow:0 1px 4px rgba(0,0,0,0.2);">'+loc.name+'</div>',
+                    direction: 'top',
+                    offset: new AMap.Pixel(0, -6),
+                }},
+            }});
+            marker.on('click', function() {{
+                var navUrl = 'https://uri.amap.com/navigation?to='+loc.lng+','+loc.lat+','+encodeURIComponent(loc.name)+'&mode=car&coordinate=gaode';
+                var info = new AMap.InfoWindow({{
+                    content: '<div style="padding:10px;font-size:14px;line-height:1.6;max-width:220px;">'+
+                        '<div style="font-size:18px;font-weight:700;color:#222;margin-bottom:4px;">'+loc.name+'</div>'+
+                        '<div style="color:#666;font-size:13px;margin-bottom:10px;">'+loc.desc+'</div>'+
+                        '<a href="'+navUrl+'" target="_blank" rel="noopener" style="display:inline-block;padding:8px 20px;background:#1a73e8;color:#fff;border-radius:20px;text-decoration:none;font-size:14px;font-weight:600;">📍 导航到这里</a>'+
+                        '</div>',
+                    offset: new AMap.Pixel(0, -28),
+                }});
+                info.open(map, marker.getPosition());
+            }});
+            map.add(marker);
+        }});
+    }})();
+    </script>
+    """
+
+    st.components.v1.html(map_html, height=510)
+
     # ----- 地点卡片（2列网格） -----
     for i in range(0, len(VILLAGE_LOCATIONS), 2):
         cols = st.columns(2)
