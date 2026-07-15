@@ -505,7 +505,7 @@ with tab_map:
                         }},
                     }});
                     marker.on('click', function() {{
-                        var navUrl = 'https://uri.amap.com/navigation?to='+loc.lng+','+loc.lat+','+encodeURIComponent(loc.name)+'&mode=car&coordinate=gaode';
+                        var navUrl = 'https://uri.amap.com/navigation?from=112.1674,33.0634,'+encodeURIComponent('李营村')+'&to='+loc.lng+','+loc.lat+','+encodeURIComponent(loc.name)+'&mode=car&coordinate=gaode';
                         var info = new AMap.InfoWindow({{
                             content: '<div style="padding:10px;font-size:14px;line-height:1.6;max-width:220px;">'+
                                 '<div style="font-size:18px;font-weight:700;color:#222;margin-bottom:4px;">'+loc.name+'</div>'+
@@ -578,7 +578,8 @@ with tab_map:
                 loc = VILLAGE_LOCATIONS[idx]
                 nav_url = (
                     f"https://uri.amap.com/navigation?"
-                    f"to={loc['lng']},{loc['lat']},{quote(loc['name'], safe='')}"
+                    f"from=112.1674,33.0634,{quote(VILLAGE_NAME, safe='')}"
+                    f"&to={loc['lng']},{loc['lat']},{quote(loc['name'], safe='')}"
                     f"&mode=car&coordinate=gaode"
                 )
                 with cols[j]:
