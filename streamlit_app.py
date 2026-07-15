@@ -441,7 +441,6 @@ with tab_map:
             pitch: 55,
             rotation: -15,
             showIndoorMap: false,
-            mapStyle: 'amap://styles/fresh',
         }});
         AMap.plugin(['AMap.ToolBar', 'AMap.Scale'], function() {{
             map.addControl(new AMap.ToolBar({{position:'RT'}}));
