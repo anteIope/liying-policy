@@ -447,7 +447,7 @@ with tab_map:
     <script>
     (function() {{
         var errorDiv = document.getElementById('map_error');
-        try {{
+        function initMap() {{
             var locs = [
                 {{"name":"李营村委会","desc":"村委办公地点，办理盖章、证明、申请等各类村级事务","lat":33.063842,"lng":112.165433,"icon":"🏛️"}},
                 {{"name":"村卫生所","desc":"医保定点门诊，常见病诊疗、慢病取药","lat":33.062273,"lng":112.170341,"icon":"🏥"}},
@@ -531,6 +531,12 @@ with tab_map:
         }} catch(e) {{
             errorDiv.textContent = '地图加载失败: ' + (e.message || '未知错误');
             errorDiv.style.display = 'block';
+        }}
+        }}
+        if (document.readyState === 'loading') {{
+            document.addEventListener('DOMContentLoaded', initMap);
+        }} else {{
+            initMap();
         }}
     }})();
     </script>
