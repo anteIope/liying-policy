@@ -7,6 +7,7 @@ import glob
 import logging
 from pathlib import Path
 from threading import Lock
+from urllib.parse import quote
 
 import streamlit as st
 
@@ -479,9 +480,19 @@ with tab_map:
                     rotation: -15,
                     showIndoorMap: false,
                 }});
-                AMap.plugin(['AMap.ToolBar', 'AMap.Scale'], function() {{
+                AMap.plugin(['AMap.ToolBar', 'AMap.Scale', 'AMap.Geolocation'], function() {{
                     map.addControl(new AMap.ToolBar({{position:'RT'}}));
                     map.addControl(new AMap.Scale());
+                    var geolocation = new AMap.Geolocation({{
+                        enableHighAccuracy: true,
+                        timeout: 10000,
+                        buttonPosition: 'RB',
+                        showButton: true,
+                        buttonOffset: new AMap.Pixel(10, 20),
+                        zoomToAccuracy: true,
+                    }});
+                    map.addControl(geolocation);
+                    geolocation.getCurrentPosition();
                 }});
                 locs.forEach(function(loc) {{
                     var marker = new AMap.Marker({{
@@ -567,7 +578,7 @@ with tab_map:
                 loc = VILLAGE_LOCATIONS[idx]
                 nav_url = (
                     f"https://uri.amap.com/navigation?"
-                    f"to={loc['lng']},{loc['lat']},{loc['name']}"
+                    f"to={loc['lng']},{loc['lat']},{quote(loc['name'], safe='')}"
                     f"&mode=car&coordinate=gaode"
                 )
                 with cols[j]:
