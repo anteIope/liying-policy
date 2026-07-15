@@ -441,10 +441,7 @@ with tab_map:
             pitch: 55,
             rotation: -15,
             showIndoorMap: false,
-            layers: [
-                new AMap.TileLayer.Satellite(),
-                new AMap.TileLayer.RoadNet(),
-            ],
+            mapStyle: 'amap://styles/fresh',
         }});
         AMap.plugin(['AMap.ToolBar', 'AMap.Scale'], function() {{
             map.addControl(new AMap.ToolBar({{position:'RT'}}));
