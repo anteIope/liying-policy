@@ -420,10 +420,27 @@ with tab_map:
         st.session_state.map_loaded = True
 
     map_html = f"""
-    <div style="margin-bottom:15px;">
-      <div id="map_container" style="width:100%;height:480px;border-radius:14px;overflow:hidden;
-           box-shadow:0 2px 12px rgba(0,0,0,0.10);"></div>
+    <!DOCTYPE html>
+    <html><head>
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+    <style>
+      *{{margin:0;padding:0;box-sizing:border-box;}}
+      body{{background:transparent;font-family:sans-serif;}}
+      #map_container{{width:100%;height:100%;border-radius:14px;overflow:hidden;}}
+    </style>
+    </head><body>
+    <div id="search_box" style="position:absolute;top:12px;left:12px;right:12px;z-index:999;
+         display:flex;gap:6px;background:rgba(255,255,255,0.95);padding:6px 6px 6px 14px;
+         border-radius:24px;box-shadow:0 2px 10px rgba(0,0,0,0.15);backdrop-filter:blur(4px);">
+      <span style="font-size:18px;line-height:36px;">🔍</span>
+      <input id="search_input" type="text" placeholder="搜索目的地，如：村委会、卫生所..."
+             style="flex:1;border:none;outline:none;font-size:16px;background:transparent;
+                    padding:6px 0;line-height:24px;">
+      <button id="search_btn" style="background:#1a73e8;color:#fff;border:none;
+             padding:8px 22px;border-radius:20px;font-size:15px;font-weight:600;cursor:pointer;
+             white-space:nowrap;">搜索</button>
     </div>
+    <div id="map_container" style="width:100%;height:100%;border-radius:14px;overflow:hidden;"></div>
     <script src="https://webapi.amap.com/maps?v=2.0&key=7737390acdd3346faa50a63dfb1b7a41"></script>
     <script>
     (function() {{
@@ -471,7 +488,12 @@ with tab_map:
             map.add(marker);
         }});
     }})();
+
+        // 移动端适配
+        setTimeout(function(){ if(map) map.resize(); }, 800);
+        window.addEventListener("resize", function(){ if(map) map.resize(); });
     </script>
+    </body></html>
     """
 
     st.components.v1.html(map_html, height=510)
