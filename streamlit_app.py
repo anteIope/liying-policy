@@ -230,7 +230,7 @@ def process_question(question):
     # 构建上下文和来源
     context = "\n\n".join([d.page_content for d in docs])
     sources = list(set([
-        os.path.basename(d.metadata.get("source", "未知文件"))
+        d.metadata.get("source", "未知文件").replace("\\", "/").split("/")[-1]
         for d in docs if d.metadata.get("source")
     ]))
 
