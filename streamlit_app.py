@@ -426,7 +426,7 @@ with tab_map:
     <style>
       *{{margin:0;padding:0;box-sizing:border-box;}}
       html,body{{width:100%;height:100%;background:transparent;font-family:sans-serif;}}
-      #map_container{{width:100%;height:100%;border-radius:14px;overflow:hidden;}}
+      #map_container{{width:100%;height:100%;border-radius:14px;overflow:hidden;background:#e8e4dc;}}
     </style>
     </head><body>
     <div id="search_box" style="position:absolute;top:12px;left:12px;right:12px;z-index:999;
@@ -440,92 +440,98 @@ with tab_map:
              padding:8px 22px;border-radius:20px;font-size:15px;font-weight:600;cursor:pointer;
              white-space:nowrap;">搜索</button>
     </div>
-    <div id="map_container" style="width:100%;height:100%;border-radius:14px;overflow:hidden;"></div>
+    <div id="map_container" style="width:100%;height:100%;border-radius:14px;overflow:hidden;background:#e8e4dc;"></div>
+    <div id="map_error" style="display:none;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;color:#666;font-size:14px;padding:20px;z-index:999;">
+      ⚠️ 地图加载失败，请检查网络连接</div>
     <script src="https://webapi.amap.com/maps?v=2.0&key=7737390acdd3346faa50a63dfb1b7a41"></script>
     <script>
     (function() {{
-        var locs = [
-            {{"name":"李营村委会","desc":"村委办公地点，办理盖章、证明、申请等各类村级事务","lat":33.063842,"lng":112.165433,"icon":"🏛️"}},
-            {{"name":"村卫生所","desc":"医保定点门诊，常见病诊疗、慢病取药","lat":33.062273,"lng":112.170341,"icon":"🏥"}},
-            {{"name":"党群服务中心","desc":"党组织和党员活动阵地，提供党务、政务、便民服务","lat":33.063785,"lng":112.165412,"icon":"⭐"}},
-            {{"name":"文化活动广场","desc":"村内活动集会场地，政策宣传公示栏所在地","lat":33.063978,"lng":112.165749,"icon":"🏟️"}},
-            {{"name":"便民快递超市","desc":"快递代收代寄，日常生活用品购买","lat":33.063321,"lng":112.169944,"icon":"🏪"}},
-        ];
-        var map = new AMap.Map('map_container', {{
-            zoom: 16,
-            center: [112.1674, 33.0634],
-            viewMode: '3D',
-            pitch: 55,
-            rotation: -15,
-            showIndoorMap: false,
-        }});
-        AMap.plugin(['AMap.ToolBar', 'AMap.Scale'], function() {{
-            map.addControl(new AMap.ToolBar({{position:'RT'}}));
-            map.addControl(new AMap.Scale());
-        }});
-        locs.forEach(function(loc) {{
-            var marker = new AMap.Marker({{
-                position: [loc.lng, loc.lat],
-                title: loc.name,
-                label: {{
-                    content: '<div style="background:#1a73e8;color:#fff;padding:3px 10px;border-radius:12px;font-size:12px;font-weight:600;white-space:nowrap;box-shadow:0 1px 4px rgba(0,0,0,0.2);">'+loc.name+'</div>',
-                    direction: 'top',
-                    offset: new AMap.Pixel(0, -6),
-                }},
+        var errorDiv = document.getElementById('map_error');
+        try {{
+            var locs = [
+                {{"name":"李营村委会","desc":"村委办公地点，办理盖章、证明、申请等各类村级事务","lat":33.063842,"lng":112.165433,"icon":"🏛️"}},
+                {{"name":"村卫生所","desc":"医保定点门诊，常见病诊疗、慢病取药","lat":33.062273,"lng":112.170341,"icon":"🏥"}},
+                {{"name":"党群服务中心","desc":"党组织和党员活动阵地，提供党务、政务、便民服务","lat":33.063785,"lng":112.165412,"icon":"⭐"}},
+                {{"name":"文化活动广场","desc":"村内活动集会场地，政策宣传公示栏所在地","lat":33.063978,"lng":112.165749,"icon":"🏟️"}},
+                {{"name":"便民快递超市","desc":"快递代收代寄，日常生活用品购买","lat":33.063321,"lng":112.169944,"icon":"🏪"}},
+            ];
+            var map = new AMap.Map('map_container', {{
+                zoom: 16,
+                center: [112.1674, 33.0634],
+                viewMode: '3D',
+                pitch: 55,
+                rotation: -15,
+                showIndoorMap: false,
             }});
-            marker.on('click', function() {{
-                var navUrl = 'https://uri.amap.com/navigation?to='+loc.lng+','+loc.lat+','+encodeURIComponent(loc.name)+'&mode=car&coordinate=gaode';
-                var info = new AMap.InfoWindow({{
-                    content: '<div style="padding:10px;font-size:14px;line-height:1.6;max-width:220px;">'+
-                        '<div style="font-size:18px;font-weight:700;color:#222;margin-bottom:4px;">'+loc.name+'</div>'+
-                        '<div style="color:#666;font-size:13px;margin-bottom:10px;">'+loc.desc+'</div>'+
-                        '<a href="'+navUrl+'" target="_top" rel="noopener" style="display:inline-block;padding:8px 20px;background:#1a73e8;color:#fff;border-radius:20px;text-decoration:none;font-size:14px;font-weight:600;">📍 导航到这里</a>'+
-                        '</div>',
-                    offset: new AMap.Pixel(0, -28),
+            AMap.plugin(['AMap.ToolBar', 'AMap.Scale'], function() {{
+                map.addControl(new AMap.ToolBar({{position:'RT'}}));
+                map.addControl(new AMap.Scale());
+            }});
+            locs.forEach(function(loc) {{
+                var marker = new AMap.Marker({{
+                    position: [loc.lng, loc.lat],
+                    title: loc.name,
+                    label: {{
+                        content: '<div style="background:#1a73e8;color:#fff;padding:3px 10px;border-radius:12px;font-size:12px;font-weight:600;white-space:nowrap;box-shadow:0 1px 4px rgba(0,0,0,0.2);">'+loc.name+'</div>',
+                        direction: 'top',
+                        offset: new AMap.Pixel(0, -6),
+                    }},
                 }});
-                info.open(map, marker.getPosition());
+                marker.on('click', function() {{
+                    var navUrl = 'https://uri.amap.com/navigation?to='+loc.lng+','+loc.lat+','+encodeURIComponent(loc.name)+'&mode=car&coordinate=gaode';
+                    var info = new AMap.InfoWindow({{
+                        content: '<div style="padding:10px;font-size:14px;line-height:1.6;max-width:220px;">'+
+                            '<div style="font-size:18px;font-weight:700;color:#222;margin-bottom:4px;">'+loc.name+'</div>'+
+                            '<div style="color:#666;font-size:13px;margin-bottom:10px;">'+loc.desc+'</div>'+
+                            '<a href="'+navUrl+'" target="_top" rel="noopener" style="display:inline-block;padding:8px 20px;background:#1a73e8;color:#fff;border-radius:20px;text-decoration:none;font-size:14px;font-weight:600;">📍 导航到这里</a>'+
+                            '</div>',
+                        offset: new AMap.Pixel(0, -28),
+                    }});
+                    info.open(map, marker.getPosition());
+                }});
+                map.add(marker);
             }});
-            map.add(marker);
-        }});
-        // 移动端适配
-        setTimeout(function(){{ map.resize(); }}, 800);
-        window.addEventListener("resize", function(){{ map.resize(); }});
-        // 搜索功能
-        var searchInput = document.getElementById('search_input');
-        var searchBtn = document.getElementById('search_btn');
-        function doSearch() {{
-            var keyword = searchInput.value.trim();
-            if (!keyword) return;
-            // 先在本地地点中搜索
-            var matched = null;
-            for (var i = 0; i < locs.length; i++) {{
-                if (locs[i].name.indexOf(keyword) > -1 || locs[i].desc.indexOf(keyword) > -1) {{
-                    matched = locs[i];
-                    break;
-                }}
-            }}
-            if (matched) {{
-                map.setCenter([matched.lng, matched.lat]);
-                map.setZoom(18);
-                return;
-            }}
-            // 本地没找到，使用高德地理编码
-            AMap.plugin('AMap.Geocoder', function() {{
-                var geocoder = new AMap.Geocoder({{city:'镇平县',radius:1000}});
-                geocoder.getLocation(keyword, function(status, result) {{
-                    if (status === 'complete' && result.geocodes.length) {{
-                        var lnglat = result.geocodes[0].getLocation();
-                        map.setCenter(lnglat);
-                        map.setZoom(17);
-                        new AMap.Marker({{position:lnglat,title:keyword}});
-                    }} else {{
-                        alert('未找到 "'+keyword+'" 相关位置');
+            // 移动端适配
+            setTimeout(function(){{ map.resize(); }}, 800);
+            window.addEventListener("resize", function(){{ map.resize(); }});
+            // 搜索功能
+            var searchInput = document.getElementById('search_input');
+            var searchBtn = document.getElementById('search_btn');
+            function doSearch() {{
+                var keyword = searchInput.value.trim();
+                if (!keyword) return;
+                var matched = null;
+                for (var i = 0; i < locs.length; i++) {{
+                    if (locs[i].name.indexOf(keyword) > -1 || locs[i].desc.indexOf(keyword) > -1) {{
+                        matched = locs[i];
+                        break;
                     }}
+                }}
+                if (matched) {{
+                    map.setCenter([matched.lng, matched.lat]);
+                    map.setZoom(18);
+                    return;
+                }}
+                AMap.plugin('AMap.Geocoder', function() {{
+                    var geocoder = new AMap.Geocoder({{city:'镇平县',radius:1000}});
+                    geocoder.getLocation(keyword, function(status, result) {{
+                        if (status === 'complete' && result.geocodes.length) {{
+                            var lnglat = result.geocodes[0].getLocation();
+                            map.setCenter(lnglat);
+                            map.setZoom(17);
+                            new AMap.Marker({{position:lnglat,title:keyword}});
+                        }} else {{
+                            alert('未找到 "'+keyword+'" 相关位置');
+                        }}
+                    }});
                 }});
-            }});
+            }}
+            searchBtn.addEventListener('click', doSearch);
+            searchInput.addEventListener('keydown', function(e) {{ if(e.keyCode===13) doSearch(); }});
+        }} catch(e) {{
+            errorDiv.textContent = '地图加载失败: ' + (e.message || '未知错误');
+            errorDiv.style.display = 'block';
         }}
-        searchBtn.addEventListener('click', doSearch);
-        searchInput.addEventListener('keydown', function(e) {{ if(e.keyCode===13) doSearch(); }});
     }})();
     </script>
     </body></html>
