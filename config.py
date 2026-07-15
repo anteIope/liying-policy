@@ -4,17 +4,16 @@
 import os
 from pathlib import Path
 
-# ====== 大模型配置（硅基流动 SiliconFlow 免费API）======
-# 获取免费API Key: https://cloud.siliconflow.cn/account/ak
-# 注册即送额度，使用Qwen2-7B模型完全免费
-API_KEY = os.getenv("SILICONFLOW_API_KEY", "sk-wxgdvbkmoitqvzmqgoedqccudgljgirkenvllfuzgcpfkibi")
+# ====== 大模型配置（DeepSeek API）======
+# 获取API Key: https://platform.deepseek.com/
+# 注意：请通过环境变量 DEEPSEEK_API_KEY 设置，不要硬编码在代码中
+API_KEY = os.getenv("DEEPSEEK_API_KEY", "")
 
 # 接口地址（无需修改）
-API_BASE_URL = "https://api.siliconflow.cn/v1"
+API_BASE_URL = "https://api.deepseek.com/v1"
 
-# 模型名称 - 使用免费的Qwen2.5-7B-Instruct
-# 其他可选免费模型: Qwen/Qwen3-8B-Instruct, GLM-4-Flash
-MODEL_NAME = "Qwen/Qwen2.5-7B-Instruct"
+# 模型名称 - DeepSeek Chat
+MODEL_NAME = "deepseek-chat"
 
 # 模型参数
 MODEL_TEMPERATURE = 0.1       # 较低温度，确保回答准确不编造
@@ -29,11 +28,8 @@ CHROMA_PERSIST_DIR = str(Path(__file__).parent / "chroma_db")
 CHUNK_SIZE = 300              # 每块最大字符数
 CHUNK_OVERLAP = 50            # 块之间重叠字符数
 
-# ====== Embedding 模型配置 ======
-# 使用硅基流动的 embedding 模型（免费）
-EMBEDDING_MODEL = "BAAI/bge-m3"
-# OpenAIEmbeddings 会自动追加 /embeddings 路径，这里只传基础地址
-EMBEDDING_API_URL = API_BASE_URL
+# ====== Embedding 模型（本地运行，无需API Key）======
+EMBEDDING_MODEL = "all-MiniLM-L6-v2"
 
 # ====== 村名配置 ======
 VILLAGE_NAME = "李营村"

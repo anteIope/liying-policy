@@ -14,13 +14,12 @@ import streamlit as st
 
 from langchain_community.document_loaders import TextLoader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
-from langchain_openai import OpenAIEmbeddings
 from langchain_chroma import Chroma
 from openai import OpenAI, AuthenticationError, BadRequestError, RateLimitError, APITimeoutError
 
 # ====== API Key 解析（优先级：st.secrets > 环境变量 > config.py默认值）======
-if "SILICONFLOW_API_KEY" in st.secrets:
-    os.environ["SILICONFLOW_API_KEY"] = st.secrets["SILICONFLOW_API_KEY"]
+if "DEEPSEEK_API_KEY" in st.secrets:
+    os.environ["DEEPSEEK_API_KEY"] = st.secrets["DEEPSEEK_API_KEY"]
 
 from config import *
 
@@ -52,12 +51,9 @@ vector_lock = Lock()
 
 @st.cache_resource(show_spinner=False)
 def get_embeddings():
-    """创建Embedding模型实例"""
-    return OpenAIEmbeddings(
-        openai_api_key=API_KEY,
-        openai_api_base=EMBEDDING_API_URL,
-        model=EMBEDDING_MODEL,
-    )
+    """创建本地Embedding模型实例（无需API Key）"""
+    from langchain_community.embeddings import HuggingFaceEmbeddings
+    return HuggingFaceEmbeddings(model_name=EMBEDDING_MODEL)
 
 
 @st.cache_resource(show_spinner=False)
