@@ -595,8 +595,7 @@ with tab_map:
                       <div style="font-size:15px;color:#666;line-height:1.6;margin-bottom:12px;
                            min-height:2.4em;">
                         {loc['desc']}</div>
-                      <a href="javascript:void(0)"
-                         onclick="window.location.href='{nav_url_escaped}';return false;"
+                      <a href="{nav_url_escaped}" target="_self" rel="noopener noreferrer"
                          style="display:block;text-align:center;padding:12px 24px;
                                 background:#1a73e8;color:white;border-radius:25px;
                                 font-size:17px;font-weight:600;text-decoration:none;
