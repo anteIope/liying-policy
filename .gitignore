@@ -10,9 +10,6 @@ dist/
 build/
 *.spec
 
-# Chroma vector database (auto-generated)
-chroma_db/
-
 # Environment
 .env
 .venv/
